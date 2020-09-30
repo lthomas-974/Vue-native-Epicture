@@ -30,9 +30,9 @@ The API Imgur will be used https://apidocs.imgur.com/
 ## How tu run it
 
 Clone the repository where you want  
-`git clone XXX`   
+`git clone git@github.com:YohannEpitech/Epicture.git`   
 Go inside the folder  
-`cd XXX`  
+`cd Epicture`  
 `npm install`  
 `expo start-android`
 

@@ -5,7 +5,8 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    UserData:{}
+    UserData:{},
+    MyFavorites:{}
   },
 
   mutations: {
@@ -14,6 +15,11 @@ const store = new Vuex.Store({
         console.log("------------> In Store")
         console.log(state.UserData)
     },
+    setMyFavorites(state, payload) {
+      this.state.MyFavorites = payload
+      console.log("------------> In Store")
+      console.log(state.MyFavorites)
+  },
   }
 });
 

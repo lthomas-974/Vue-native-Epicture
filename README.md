@@ -28,3 +28,9 @@ The API Imgur will be used https://apidocs.imgur.com/
 ## Structure
 
 ## How tu run it
+
+Clone the repository where you want
+`git clone XXX`
+Go inside the folder
+`cd XXX`
+`npm install`

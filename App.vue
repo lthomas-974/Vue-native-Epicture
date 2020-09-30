@@ -1,19 +1,29 @@
 <template>
   <view class="container">
     <text class="text-color-primary">{{ message }}</text>
-    <button title="Login to imgur" @press="login" />
-    <text class="text">{{ userData }}</text>
+    <button v-if="userConnected === false"  title="Login to imgur" @press="login" />
+    <text v-if="userConnected === true"  class="text"> Hello {{ userData.params.account_username }} !</text>
+    <button v-if="userConnected === true"  title="Logout" @press="logout" />
+    <text class="text"> {{ userConnected }} </text>
   </view>
 </template>
 
 <script>
+  import Store from './store.js';
   import * as AuthSession from 'expo-auth-session';
   export default {
     data() {
       return {
         message: "My Imgur",
-        userData: {}
+        userData: {},
+        userConnected: false
       };
+    },
+    mounted(){
+      if(Store.state.UserData != null){
+        this.userData = Store.state.UserData
+        this.userConnected = true
+      }
     },
     methods: {
       async login() {
@@ -25,11 +35,17 @@
             returnUrl: "exp://127.0.0.1:19000/",
           });
           console.log(result)
-          this.userData = result
+          Store.state.UserData = result;
+          this.userData = result;
+          this.userConnected = true;
         } catch (e) {
           console.log(e)
         }
-      }
+      }, 
+    async logout(){
+      Store.state.UserData = {};
+      this.userData = {};
+    }
     },
   };
 </script>

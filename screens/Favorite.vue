@@ -13,8 +13,15 @@ export default {
       type: Object,
     },
   },
-  mounted(){
+  async mounted(){
+    try {
+            //Assign the promise unresolved first then get the data using the json method.
+            const imgurApiCall = await fetch('https://pokeapi.co/api/v2/pokemon/');
+            const picture = await imgurApiCall.json();
 
+        } catch(err) {
+            console.log("Error fetching data-----------", err);
+        }
 
   },
   methods: {

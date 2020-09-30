@@ -34,5 +34,5 @@ Clone the repository where you want
 Go inside the folder  
 `cd Epicture`  
 `npm install`  
-`expo start-android`
+`expo start`
 

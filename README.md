@@ -35,4 +35,7 @@ Go inside the folder
 `cd Epicture`  
 `npm install`  
 `expo start`
+Choose Android Device/Simulator or run an IOS simulator
+
+Now, you can use this application
 

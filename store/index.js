@@ -6,7 +6,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     UserData: {},
-    MyFavorites: {}
+    MyFavorites: {},
+    ImgurData:[]
   },
 
   mutations: {
@@ -20,9 +21,27 @@ const store = new Vuex.Store({
       console.log("------------> In Store")
       console.log(state)
     },
+    setImgurData(state, payload){
+      this.state.ImgurData = payload
+    }
   },
 
   actions: {
+    async updateHome(context){
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Client-ID ffea18b10c6e973");
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+      await fetch(
+          "https://api.imgur.com/3/gallery/top/viral/day/1?showViral=true&mature=true&album_previews=false",
+          requestOptions)
+        .then(response => response.json())
+        .then(result => store.commit('setImgurData', result.data))
+        .catch(error => console.log('error', error));
+    },
     async updateMyFavorites(context) {
       try {
         const imgurApiCall = await fetch(

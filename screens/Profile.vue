@@ -42,7 +42,6 @@ export default {
           authUrl,
           returnUrl: "exp://127.0.0.1:19000/",
         });
-        console.log(result);
         store.commit("setUserData", result);
       } catch (e) {
         console.log(e);

@@ -1,15 +1,30 @@
 <template>
   <text>
     <image :style="{ width: 300, height: 300 }" :source="{ uri: getPic() }" />
-
-    <button v-if="addButton" :on-press="onPressAddToMyFavorite" title="Add" color="#841584" />
-    <button v-if="remButton" :on-press="onPressRemoveToMyFavorite" title="Remove" color="#841584" />
-
+    <button
+      v-if="addButton"
+      :on-press="onPressAddToMyFavorite"
+      title="Add"
+      color="#841584"
+    />
+    <button
+      v-if="remButton"
+      :on-press="onPressRemoveToMyFavorite"
+      title="Remove"
+      color="#841584"
+    />
+    <button
+      v-if="delButton"
+      :on-press="onPressDeleteThisPicture"
+      title="Delete"
+      color="#841584"
+    />
   </text>
 </template>
 
 <script>
 import store from "../store/index";
+import { Alert } from 'react-native';
 
 export default {
   props: {
@@ -22,19 +37,50 @@ export default {
     remButton: {
       Type: Boolean,
     },
+    delButton: {
+      Type: Boolean,
+    },
   },
   mounted() {
-    console.log(this.data);
   },
   methods: {
+    async onPressDeleteThisPicture() {
+      if (Alert.alert("Confirmatiion",
+          "Do you want to delete this picture?",
+          [
+            {text:"Confirm",onPress:async ()=> {
+              try {
+
+        const imgurApiCall = await fetch(
+          `https://api.imgur.com/3/image/${this.data.deletehash}`,
+          {
+            method: "delete",
+            headers: {
+              authorization:
+                "Bearer " + store.state.UserData.params.access_token,
+            },
+          }
+        ).then(res=>res.json())
+        if (imgurApiCall.success){
+             store.dispatch("updateMyPictures");
+          }
+
+        } catch (err) {
+          console.log("Error fetching data-----------", err);
+        }
+            }},
+            {text:"Cancel"}
+
+          ])){
+      };
+
+    },
     onPressRemoveToMyFavorite() {
       alert("remove");
     },
-    async onPressAddToMyFavorite() {
+    onPressAddToMyFavorite() {
       try {
-        //Assign the promise unresolved first then get the data using the json method.
-        console.log(this.data);
-        const imgurApiCall = await fetch(
+        fetch(
           `https://api.imgur.com/3/image/${this.data.id}/favorite`,
           {
             methods: "POST",
@@ -49,7 +95,7 @@ export default {
       }
     },
     getPic() {
-      return `https://i.imgur.com/${this.data.cover}.jpeg`;
+      return this.data.link;
     },
   },
 };

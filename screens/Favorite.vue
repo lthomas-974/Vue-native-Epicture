@@ -1,11 +1,9 @@
 <template>
   <view class="container">
-    <text class="text-color-primary">Your Favorite</text>
+    <text class="text-color-primary">Your Favorites</text>
     <text v-if="myFavoritesLength == 0" class="text-color-primary"
       >No favorite</text
     >
-
-
     <scroll-view v-else
       :content-container-style="{
         contentContainer: {
@@ -13,15 +11,18 @@
         },
       }"
     >
-    <text class="text-color-primary">{{ myFavoritesLength }} favorites found</text>
+      <text class="text-color-primary">{{ myFavoritesLength }} favorites found</text>
       <index-picture
         class="text-container"
         v-for="picture in myFavorites"
         :key="picture.id"
-        :data="picture"
+        :data="picture.images"
         :remButton="true"
         :addButton="false"
-      />
+        :delButton="false"
+      >
+      {{ picture.images}}
+      </index-picture>
 
     </scroll-view>
   </view>
@@ -42,36 +43,9 @@ export default {
     store.dispatch("updateMyFavorites");
   },
   methods: {
-    onPressRemoveToMyFavorite() {
-      alert("remove");
-    },
-    async onPressAddToMyFavorite(imageHash) {
-      console.log(imageHash)
-      try {
-        //Assign the promise unresolved first then get the data using the json method.
-
-        const imgurApiCall = await fetch(
-          `https://api.imgur.com/3/image/${imageHash}/favorite`,
-          {
-            methods: "POST",
-            headers: {
-              authorization:
-                "Bearer " + store.state.UserData.params.access_token,
-            },
-          }
-        ).then(store.dispatch("updateMyFavorites"));
-      } catch (err) {
-        console.log("Error fetching data-----------", err);
-      }
-    },
-    getPic(picture) {
-      return `https://i.imgur.com/${picture.cover}.jpeg`;
-    },
   },
   computed: {
-    userData: function () {
-      return store.state.UserData;
-    },
+
     myFavorites: function () {
       return store.state.MyFavorites;
     },

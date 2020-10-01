@@ -6,19 +6,22 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     UserData: {},
-    MyFavorites: {}
+    MyFavorites: [],
+    MyPictures: []
   },
 
   mutations: {
     setUserData(state, payload) {
-      this.state.UserData = payload
-      console.log("------------> In Store")
-      console.log(state.UserData)
+      state.UserData = payload
+      console.log("------------> In Store UserData")
     },
     setMyFavorites(state, payload) {
-      this.state.MyFavorites = payload
-      console.log("------------> In Store")
-      console.log(state)
+      state.MyFavorites = payload
+      console.log("------------> In Store My Favorites")
+    },
+    setMyPictures(state, payload) {
+      state.MyPictures = payload
+      console.log("------------> In Store My Pictures")
     },
   },
 
@@ -35,8 +38,24 @@ const store = new Vuex.Store({
           }
         );
         const pictures = await imgurApiCall.json();
-        console.log(pictures);
-        store.commit("setMyFavorites", pictures.data);
+        context.commit("setMyFavorites", pictures.data);
+      } catch (err) {
+        console.log("Error fetching data-----------", err);
+      }
+    },
+    async updateMyPictures(context) {
+      try {
+        const imgurApiCall = await fetch(
+          `https://api.imgur.com/3/account/me/images`,
+          {
+            methods: "GET",
+            headers: {
+              authorization: "Bearer " + store.state.UserData.params.access_token,
+            },
+          }
+        );
+        const pictures = await imgurApiCall.json();
+        context.commit("setMyPictures", pictures.data);
       } catch (err) {
         console.log("Error fetching data-----------", err);
       }

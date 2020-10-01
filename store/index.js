@@ -18,8 +18,12 @@ const store = new Vuex.Store({
       console.log("------------> In Store UserData")
     },
     setMyFavorites(state, payload) {
-      this.state.MyFavorites = payload
-      console.log("------------> In Store")
+      state.MyFavorites = payload
+      console.log("------------> In Store My Favorites")
+    },
+    setMyPictures(state, payload) {
+      state.MyPictures = payload
+      console.log("------------> In Store My Pictures")
     },
     setImgurData(state, payload){
       state.ImgurData = payload
@@ -36,7 +40,7 @@ const store = new Vuex.Store({
         redirect: 'follow'
       };
       await fetch(
-          "https://api.imgur.com/3/gallery/top/viral/day/1?showViral=true&mature=true&album_previews=false",
+          "https://api.imgur.com/3/gallery/search/{{sort}}/{{window}}/1?q=otter&q_type=jpg&q_size_px=small&",
           requestOptions)
         .then(response => response.json())
         .then(result => store.commit('setImgurData', result.data))

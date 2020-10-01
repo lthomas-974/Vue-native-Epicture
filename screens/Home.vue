@@ -1,36 +1,78 @@
 <template>
-  <view class="container">
-    <status-bar background-color="#3BFFA3" bar-style="light-content" />
-    <text class="text-color-primary">Home</text>
-    <text v-if="userData.params" class="text">
-      Hello {{ userData.params.account_username }} !</text>
-    <text v-else class="text">
-      Hello unknown :D</text>
-       <scroll-view 
-      :content-container-style="{
+<nb-container>
+    <nb-header />
+    <nb-content padder>
+      <nb-card v-for="img in ImgurData" v-bind:key="img.id" >
+        <nb-card-item >
+          <nb-left>
+            <nb-body>
+              <nb-text> {{ img.title }} </nb-text>
+              <nb-text note>{{ img.account_url }}</nb-text>
+            </nb-body>
+          </nb-left>
+        </nb-card-item> 
+        <nb-card-item v-for="image in img.images" v-bind:key="image.id" cardBody>
+            <image v-if="image.type.substring(0,5) =='image'" :source="{ uri: image.link }"  :style="{ width: 300, height: 300 }" />
+            <image v-else :source="{ uri: image.gifv }"  :style="{ width: 300, height: 300 }" />
+        </nb-card-item>
+        <nb-card-item>
+          <nb-left>
+            <nb-button transparent  @press="addFavorite(img.images[0].id)">
+              <nb-icon name="thumbs-up" active></nb-icon>
+              <nb-text>{{ img.favorite_count}} Likes</nb-text>
+            </nb-button>
+          </nb-left>
+          <nb-body>
+            <nb-button transparent>
+              <nb-icon name="chatbubbles" active></nb-icon>
+              <nb-text>{{ img.comment_count }} Comments</nb-text>
+            </nb-button>
+          </nb-body>
+        </nb-card-item>
+      </nb-card>
+    </nb-content>
+  </nb-container>
+
+
+    <!-- <scroll-view :content-container-style="{
         contentContainer: {
           paddingVertical: 20,
         },
-      }"
-    >
-    <text v-for="img in ImgurData" v-bind:key="img.id" class="text">{{ img.title }}</text>
-    </scroll-view>
-  </view>
+      }">
+      <text v-for="img in ImgurData" v-bind:key="img.id">
+        <text v-for="image in img.images" v-bind:key="image.id">
+          <text  v-if="image.type.substring(0,5) =='image'">{{ img.title }}</text>
+          <image v-if="image.type.substring(0,5) =='image'" :style="{width: image.width/5, height: image.height/5}"
+            :source="{uri: image.link }" />
+            
+        </text>
+      </text>
+    </scroll-view> -->
+
 </template>
 
 <script>
+  import logo from "../assets/logo.png";
+  import cardImage from "../assets/drawer-cover.png";
   import store from "../store/index";
+  import Vue from "vue-native-core";
+  import { VueNativeBase } from "native-base";
+  // registering all native-base components to the global scope of the Vue
+  Vue.use(VueNativeBase);
+
   export default {
     data() {
-    return {
-      imgurData:{},
-      stylesObj: {
-        cardItemImage: {
-          resizeMode: "cover"
+      return {
+        imgurData: {},
+        logo,
+        cardImage,
+        stylesObj: {
+          cardItemImage: {
+            resizeMode: "cover"
+          }
         }
-      }
-    };
-  },
+      };
+    },
     props: {
       navigation: {
         type: Object,
@@ -52,13 +94,20 @@
       goToFavoriteScreen() {
         this.navigation.navigate("Favorite");
       },
+      async addFavorite(id){
+        console.log(id)
+      }
     },
     computed: {
       userData: function () {
         return store.state.UserData;
       },
-      ImgurData: function() {
-        return store.state.ImgurData;
+      ImgurData: function () {
+        let tmp = [];
+        for(let i = 0; i < 20 ; i++){
+          tmp.push(store.state.ImgurData[i])
+        }
+        return tmp;
       }
 
     },
@@ -88,5 +137,9 @@
   .text {
     color: red;
     font-size: 20;
+  }
+    .card-item-image {
+    flex: 1;
+    height: 200;
   }
 </style>

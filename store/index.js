@@ -19,11 +19,11 @@ const store = new Vuex.Store({
     },
     setMyFavorites(state, payload) {
       state.MyFavorites = payload
-      console.log("------------> In Store My Favorites")
+      console.log("------------> In Store")
     },
     setMyPictures(state, payload) {
       state.MyPictures = payload
-      console.log("------------> In Store My Pictures")
+      console.log("------------> In Store")
     },
     setImgurData(state, payload){
       state.ImgurData = payload

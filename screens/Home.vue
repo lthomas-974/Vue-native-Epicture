@@ -6,7 +6,15 @@
       Hello {{ userData.params.account_username }} !</text>
     <text v-else class="text">
       Hello unknown :D</text>
-    <text v-for="img in ImgurData" v-bind:key="img" class="text-color-primary">{{ img }}</text>
+       <scroll-view 
+      :content-container-style="{
+        contentContainer: {
+          paddingVertical: 20,
+        },
+      }"
+    >
+    <text v-for="img in ImgurData" v-bind:key="img.id" class="text">{{ img.title }}</text>
+    </scroll-view>
   </view>
 </template>
 
@@ -16,6 +24,11 @@
     data() {
     return {
       imgurData:{},
+      stylesObj: {
+        cardItemImage: {
+          resizeMode: "cover"
+        }
+      }
     };
   },
     props: {
@@ -44,6 +57,10 @@
       userData: function () {
         return store.state.UserData;
       },
+      ImgurData: function() {
+        return store.state.ImgurData;
+      }
+
     },
     data() {
       return {

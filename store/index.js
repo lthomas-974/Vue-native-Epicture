@@ -1,7 +1,8 @@
 import Vue from "vue-native-core";
 import Vuex from "vuex";
-
+import { VueNativeBase } from "native-base";
 Vue.use(Vuex);
+Vue.use(VueNativeBase);
 
 const store = new Vuex.Store({
   state: {
@@ -19,7 +20,6 @@ const store = new Vuex.Store({
     setMyFavorites(state, payload) {
       this.state.MyFavorites = payload
       console.log("------------> In Store")
-      console.log(state)
     },
     setImgurData(state, payload){
       this.state.ImgurData = payload

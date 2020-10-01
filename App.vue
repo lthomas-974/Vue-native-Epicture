@@ -8,6 +8,9 @@ import {
   createStackNavigator,
   createDrawerNavigator,
 } from "vue-native-router";
+import { VueNativeBase } from "native-base";
+import { AppLoading } from "expo";
+import * as Font from "expo-font";
 
 import HomeScreen from "./screens/Home.vue";
 import ProfileScreen from "./screens/Profile.vue";

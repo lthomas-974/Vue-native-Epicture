@@ -6,6 +6,7 @@
 import {
   createAppContainer,
   createStackNavigator,
+  createDrawerNavigator,
 } from "vue-native-router";
 
 import HomeScreen from "./screens/Home.vue";
@@ -15,22 +16,27 @@ import MyPicturesScreen from "./screens/MyPictures.vue";
 import UploadPictureScreen from "./screens/UploadPicture.vue";
 
 
+const DrawerNavigator = createDrawerNavigator(
+    {
+      Home: HomeScreen,
+      Profile: ProfileScreen,
+      Favorite: FavoriteScreen,
+      MyPictures: MyPicturesScreen,
+      UploadPicture: UploadPictureScreen
+    },
+    {
+      initialRouteName: 'Home'
+    }
+  );
+
 const StackNavigator = createStackNavigator(
   {
     Home: HomeScreen,
-    Profile: ProfileScreen,
-    Favorite: FavoriteScreen,
-    MyPictures: MyPicturesScreen,
-    UploadPicture: UploadPictureScreen
-
-
   },
-  {
-    initialRouteName: 'Home',
-  }
+
 );
 
-const AppNavigator = createAppContainer(StackNavigator);
+const AppNavigator = createAppContainer(DrawerNavigator);
 
 export default {
   components: { AppNavigator },

@@ -44,6 +44,21 @@ const store = new Vuex.Store({
         .then(result => store.commit('setImgurData', result.data))
         .catch(error => console.log('error', error));
     },
+    async search(context, payload){
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Client-ID ffea18b10c6e973");
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+      await fetch(
+          "https://api.imgur.com/3/gallery/search/{{sort}}/{{window}}/1?q="+ payload + "&q_type=jpg&q_size_px=small&",
+          requestOptions)
+        .then(response => response.json())
+        .then(result => store.commit('setImgurData', result.data))
+        .catch(error => console.log('error', error));
+    },
     async updateMyFavorites(context) {
       try {
         const imgurApiCall = await fetch(

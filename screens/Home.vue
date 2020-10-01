@@ -1,54 +1,50 @@
 <template>
-<nb-container>
-    <nb-header />
-    <nb-content padder>
-      <nb-card v-for="img in ImgurData" v-bind:key="img.id" >
-        <nb-card-item >
+  <nb-container class="header">
+    <nb-header class="header"   searchBar rounded>
+      <StatusBar barStyle="light-content" backgroundColor="#1bb76e" />
+      <nb-item>
+        <nb-icon :on-press="search" active name="search" />
+        <nb-input placeholder="Search in Imgur" v-model="searchInput" @keydown="search()" />
+        <nb-icon class="icon" :on-press="search" type="FontAwesome" active name="paw" />
+      </nb-item>
+    </nb-header>
+    <nb-content v-if="ImgurData.length > 1" padder>
+      <nb-card v-for="img in ImgurData" v-bind:key="img.id">
+        <nb-card-item>
           <nb-left>
             <nb-body>
               <nb-text> {{ img.title }} </nb-text>
               <nb-text note>{{ img.account_url }}</nb-text>
             </nb-body>
           </nb-left>
-        </nb-card-item> 
+        </nb-card-item>
         <nb-card-item v-for="image in img.images" v-bind:key="image.id" cardBody>
-            <image v-if="image.type.substring(0,5) =='image'" :source="{ uri: image.link }"  :style="{ width: 300, height: 300 }" />
-            <image v-else :source="{ uri: image.gifv }"  :style="{ width: 300, height: 300 }" />
+          <image v-if="image.type.substring(0,5) =='image'" :source="{ uri: image.link }"
+            :style="{ width: 300, height: 300 }" />
+          <image v-else :source="{ uri: image.gifv }" :style="{ width: 300, height: 300 }" />
         </nb-card-item>
         <nb-card-item>
           <nb-left>
-            <nb-button transparent  @press="addFavorite(img.images[0].id)">
-              <nb-icon name="thumbs-up" active></nb-icon>
-              <nb-text>{{ img.favorite_count}} Likes</nb-text>
+            <nb-button transparent>
+              <nb-icon class="bottomButton" name="thumbs-up" active></nb-icon>
+              <nb-text class="bottomButton">{{ img.favorite_count}} Likes</nb-text>
             </nb-button>
           </nb-left>
           <nb-body>
-            <nb-button transparent>
-              <nb-icon name="chatbubbles" active></nb-icon>
-              <nb-text>{{ img.comment_count }} Comments</nb-text>
+            <nb-button  transparent>
+              <nb-icon class="bottomButton" name="chatbubbles" active></nb-icon>
+              <nb-text class="bottomButton">{{ img.comment_count }} Comments</nb-text>
             </nb-button>
           </nb-body>
+          <nb-right>
+            <nb-button transparent @press="addFavorite(img.images[0].id)">
+              <nb-icon class="bottomButton" name="heart" active></nb-icon>
+            </nb-button>
+          </nb-right>
         </nb-card-item>
       </nb-card>
     </nb-content>
   </nb-container>
-
-
-    <!-- <scroll-view :content-container-style="{
-        contentContainer: {
-          paddingVertical: 20,
-        },
-      }">
-      <text v-for="img in ImgurData" v-bind:key="img.id">
-        <text v-for="image in img.images" v-bind:key="image.id">
-          <text  v-if="image.type.substring(0,5) =='image'">{{ img.title }}</text>
-          <image v-if="image.type.substring(0,5) =='image'" :style="{width: image.width/5, height: image.height/5}"
-            :source="{uri: image.link }" />
-            
-        </text>
-      </text>
-    </scroll-view> -->
-
 </template>
 
 <script>
@@ -56,7 +52,11 @@
   import cardImage from "../assets/drawer-cover.png";
   import store from "../store/index";
   import Vue from "vue-native-core";
-  import { VueNativeBase } from "native-base";
+  import { Alert } from 'react-native';
+  import {StatusBar} from 'react-native';
+  import {
+    VueNativeBase
+  } from "native-base";
   // registering all native-base components to the global scope of the Vue
   Vue.use(VueNativeBase);
 
@@ -65,6 +65,7 @@
       return {
         imgurData: {},
         logo,
+        searchInput: "",
         cardImage,
         stylesObj: {
           cardItemImage: {
@@ -94,9 +95,41 @@
       goToFavoriteScreen() {
         this.navigation.navigate("Favorite");
       },
-      async addFavorite(id){
-        console.log(id)
+      async addFavorite(id) {
+        try {
+          fetch(
+            `https://api.imgur.com/3/image/${id}/favorite`, {
+              method: "POST",
+              headers: {
+                authorization: "Bearer " + store.state.UserData.params.access_token,
+              },
+            })
+          .then(store.dispatch("updateMyFavorites"))
+          .then(
+            Alert.alert(
+                'New Message',
+                'New favorite Added !',
+                [
+                    {text: 'OK'},
+                ],
+                { cancelable: true }
+            ));
+        } catch (err) {
+          Alert.alert(
+                'New Message',
+                'You need to be login for add favorite picture',
+                [
+                    {text: 'OK'},
+                ],
+                { cancelable: true }
+            )
+        }
+      },
+      async search() {
+        console.log(this.searchInput)
+        await store.dispatch("search", this.searchInput);
       }
+
     },
     computed: {
       userData: function () {
@@ -104,17 +137,12 @@
       },
       ImgurData: function () {
         let tmp = [];
-        for(let i = 0; i < 20 ; i++){
+        for (let i = 0; i < 20; i++) {
           tmp.push(store.state.ImgurData[i])
         }
         return tmp;
       }
 
-    },
-    data() {
-      return {
-        message: "My Imgur",
-      };
     },
   };
 </script>
@@ -138,8 +166,21 @@
     color: red;
     font-size: 20;
   }
-    .card-item-image {
+
+  .card-item-image {
     flex: 1;
     height: 200;
+  }
+
+  .header {
+    background-color: #2e3035;
+  }
+
+  .icon {
+    color: #1bb76e;
+  }
+
+  .bottomButton{
+    color: #1bb76e;
   }
 </style>

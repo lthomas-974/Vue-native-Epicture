@@ -1,37 +1,59 @@
 <template>
   <view class="container">
     <text class="text-color-primary">My pictures</text>
+    <text v-if="myPicturesLength && myPicturesLength == 0" class="text-color-primary"
+      >You don't have images</text
+    >
+    <scroll-view v-else
+      :content-container-style="{
+        contentContainer: {
+          paddingVertical: 20,
+        },
+      }"
+    >
+      <text class="text-color-primary">{{ myPicturesLength }} pictures found</text>
+      <index-picture
+        class="text-container"
+        v-for="picture in myPictures"
+        :key="picture.id"
+        :data="picture"
+        :remButton="false"
+        :addButton="false"
+        :delButton="true"
+      >
+      </index-picture>
 
-    <text v-if="userData.params" class="text">
-      Hello {{ userData.params.account_username }} !</text>
-
+    </scroll-view>
   </view>
 </template>
 
 <script>
 import store from "../store/index";
+import indexPicture from "../components/indexPicture";
+
+
 export default {
+  components: { indexPicture },
   props: {
     navigation: {
       type: Object,
     },
   },
   mounted(){
-
-
+    store.dispatch("updateMyPictures");
   },
   methods: {
 
   },
+
   computed: {
-    userData: function () {
-      return store.state.UserData;
+
+    myPictures: function () {
+      return store.state.MyPictures;
     },
-  },
-  data() {
-    return {
-      message: "My Imgur",
-    };
+    myPicturesLength: function () {
+      return store.state.MyPictures.length;
+    },
   },
 };
 </script>

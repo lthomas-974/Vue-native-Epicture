@@ -1,30 +1,19 @@
 <template>
-  <view class="container">
-    <text class="text-color-primary">My pictures</text>
-    <text v-if="myPicturesLength && myPicturesLength == 0" class="text-color-primary"
-      >You don't have images</text
-    >
-    <scroll-view v-else
-      :content-container-style="{
-        contentContainer: {
-          paddingVertical: 20,
-        },
-      }"
-    >
-      <text class="text-color-primary">{{ myPicturesLength }} pictures found</text>
-      <index-picture
-        class="text-container"
-        v-for="picture in myPictures"
-        :key="picture.id"
-        :data="picture"
-        :remButton="false"
-        :addButton="false"
-        :delButton="true"
-      >
-      </index-picture>
+  <nb-container >
+    <nb-header class="header" rounded>
+      <StatusBar barStyle="light-content" backgroundColor="#1bb76e" />
+      <nb-item >
+        <nb-text> My pictures</nb-text>
+      </nb-item>
+    </nb-header>
+    <nb-text v-if="myPicturesLength == 0">No picture</nb-text>
+    <nb-content class="card-deck"  v-else padder>
+      <index-picture v-for="picture in myPictures" v-bind:key="picture.id"
+                :data="picture"
+                :delButton="true"/>
+    </nb-content>
+  </nb-container>
 
-    </scroll-view>
-  </view>
 </template>
 
 <script>
@@ -73,5 +62,14 @@ export default {
 .text {
   color: red;
   font-size: 20;
+
+}
+.header {
+  background-color: #1bb76e;
+}
+
+.card-deck {
+  background-color:#2e3035;
+  borderWidth: 5px;
 }
 </style>

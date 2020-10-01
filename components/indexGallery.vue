@@ -1,23 +1,36 @@
 <template>
-  <text>
-    <text  class="text-container"> {{ title}}</text>
-        <!-- <text  class="text-c/ontainer"> {{ data}}</text> -->
+  <nb-card>
+    <nb-card-item>
+      <nb-left>
+        <!-- <nb-body>
+          <nb-text> {{ title }} </nb-text>
+        </nb-body> -->
+      </nb-left>
+    </nb-card-item>
+    <nb-card-item cardBody>
+      <image
+        v-if="data.type.substring(0, 5) == 'image'"
+        :source="{ uri: data.link }"
+        :style="{ width: 300, height: 300 }"
+      />
+      <image
+        v-else
+        :source="{ uri: data.gifv }"
+        :style="{ width: 300, height: 300 }"
+      />
+    </nb-card-item>
+    <nb-card-item footer >
+      <nb-right >
+        <nb-text button :onPress="onPressToggleToMyFavorite">Del</nb-text>
 
-    <image :style="{ width: 300, height: 300 }" :source="{ uri: getPic() }" />
-
-    <button
-      v-if="remButton"
-      :on-press="onPressToggleToMyFavorite"
-      title="Remove"
-      color="#841584"
-    />
-
-  </text>
+      </nb-right>
+    </nb-card-item>
+  </nb-card>
 </template>
 
 <script>
 import store from "../store/index";
-import { Alert } from 'react-native';
+import { Alert } from "react-native";
 
 export default {
   props: {
@@ -30,15 +43,13 @@ export default {
     remButton: {
       Type: Boolean,
     },
-
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     async onPressToggleToMyFavorite() {
-
       try {
-        const favoriteApiCall = await fetch(`https://api.imgur.com/3/image/${this.data.id}/favorite`,
+        const favoriteApiCall = await fetch(
+          `https://api.imgur.com/3/image/${this.data.id}/favorite`,
           {
             method: "POST",
             headers: {
@@ -46,19 +57,15 @@ export default {
                 "Bearer " + store.state.UserData.params.access_token,
             },
           }
-        ).then(res=>res.json())
-        if (favoriteApiCall.success){
-          store.dispatch("updateMyFavorites")
-          }
-
+        ).then((res) => res.json());
+        if (favoriteApiCall.success) {
+          store.dispatch("updateMyFavorites");
+        }
       } catch (err) {
         console.log("Error fetching data-----------", err);
       }
     },
-    getPic() {
-      return this.data.link;
 
-    },
   },
 };
 </script>

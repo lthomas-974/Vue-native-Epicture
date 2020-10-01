@@ -1,31 +1,19 @@
 <template>
-  <view class="container">
-    <text class="text-color-primary">Your Favorites</text>
-    <text v-if="myFavoritesLength == 0" class="text-color-primary"
-      >No favorite</text
-    >
-    <scroll-view v-else
-      :content-container-style="{
-        contentContainer: {
-          paddingVertical: 20,
-        },
-      }"
-    >
-      <text class="text-color-primary">{{ myFavoritesLength }} favorites found</text>
-      <index-gallery
-        class="text-container"
-        v-for="picture in myFavorites"
-        :key="picture.id"
-        :title="picture.title"
-        :data="picture"
-        :remButton="true"
-
-      />
-
-    </scroll-view>
-  </view>
+  <nb-container >
+    <nb-header class="header" rounded>
+      <StatusBar barStyle="light-content" backgroundColor="#1bb76e" />
+      <nb-item>
+        <nb-text> My favorites</nb-text>
+      </nb-item>
+    </nb-header>
+    <nb-text v-if="myFavoritesLength == 0">No favorite</nb-text>
+    <nb-content class="card-deck"  v-else padder>
+      <index-gallery v-for="favorite in myFavorites" v-bind:key="favorite.id" :title="favorite.title"
+                :data="favorite"
+                :remButton="true"/>
+    </nb-content>
+  </nb-container>
 </template>
-
 <script>
 import store from "../store/index";
 import indexGallery from "../components/indexGallery";
@@ -40,8 +28,7 @@ export default {
   async mounted() {
     store.dispatch("updateMyFavorites");
   },
-  methods: {
-  },
+  methods: {},
   computed: {
     myFavorites: function () {
       return store.state.MyFavorites;
@@ -61,9 +48,12 @@ export default {
 <style>
 .container {
   flex: 1;
-  background-color: white;
   align-items: center;
   justify-content: center;
+  borderTopWidth: 5px;
+  borderTopColor: white;
+  background-color: #2e3035;
+
 }
 
 .text-color-primary {
@@ -73,5 +63,13 @@ export default {
 .text {
   color: red;
   font-size: 20;
+}
+.header {
+  background-color: #be6318;
+}
+
+.card-deck {
+  background-color:#2e3035;
+  borderWidth: 5px;
 }
 </style>

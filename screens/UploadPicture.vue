@@ -1,8 +1,11 @@
 <template>
   <view class="container">
     <text class="text-color-primary">Upload picture</text>
-
-
+    <text-input
+      type="file"
+      :style="{ height: 40, width: 100, borderColor: 'gray', borderWidth: 1 }"
+      v-model="file"
+    />
   </view>
 </template>
 
@@ -13,12 +16,41 @@ export default {
     navigation: {
       type: Object,
     },
+    file: {
+      type: Object,
+    },
   },
   mounted(){
 
 
   },
   methods: {
+    async uploadPicture(){
+      let bodyData = new FormData()
+      bodyData.append({title:"hello",
+      description:"My picture",
+      disable_audio:1,
+      type:"jpg"})
+      console.log(body)
+      try {
+        const uploadApiCall = await fetch(`https://api.imgur.com/3/upload`,
+          {
+            method: "POST",
+            headers: {
+              authorization:
+                "Bearer " + store.state.UserData.params.access_token,
+            },
+            body:bodyData
+          }
+        ).then(res=>res.json())
+        if (uploadApiCall.success){
+          store.dispatch("updateMyPictures")
+          }
+
+      } catch (err) {
+        console.log("Error fetching data-----------", err);
+      }
+    }
 
   },
   computed: {

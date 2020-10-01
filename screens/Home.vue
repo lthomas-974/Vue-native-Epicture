@@ -137,6 +137,9 @@
       },
       ImgurData: function () {
         let tmp = [];
+        if(store.state.ImgurData.length < 20){
+          return store.state.ImgurData
+        }
         for (let i = 0; i < 20; i++) {
           tmp.push(store.state.ImgurData[i])
         }

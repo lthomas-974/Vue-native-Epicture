@@ -53,7 +53,7 @@ const store = new Vuex.Store({
         redirect: 'follow'
       };
       await fetch(
-          "https://api.imgur.com/3/gallery/search/{{sort}}/{{window}}/1?q="+ payload + "&q_type=jpg&q_size_px=small&",
+          "https://api.imgur.com/3/gallery/search/{{sort}}/{{window}}/1?q="+ payload + "&q_type=jpg&q_size_px=small&q_any",
           requestOptions)
         .then(response => response.json())
         .then(result => store.commit('setImgurData', result.data))

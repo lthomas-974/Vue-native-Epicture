@@ -12,17 +12,15 @@
       }"
     >
       <text class="text-color-primary">{{ myFavoritesLength }} favorites found</text>
-      <index-picture
+      <index-gallery
         class="text-container"
         v-for="picture in myFavorites"
         :key="picture.id"
-        :data="picture.images"
+        :title="picture.title"
+        :data="picture"
         :remButton="true"
-        :addButton="false"
-        :delButton="false"
-      >
-      {{ picture.images}}
-      </index-picture>
+
+      />
 
     </scroll-view>
   </view>
@@ -30,10 +28,10 @@
 
 <script>
 import store from "../store/index";
-import indexPicture from "../components/indexPicture";
+import indexGallery from "../components/indexGallery";
 
 export default {
-  components: { indexPicture },
+  components: { indexGallery },
   props: {
     navigation: {
       type: Object,
@@ -45,7 +43,6 @@ export default {
   methods: {
   },
   computed: {
-
     myFavorites: function () {
       return store.state.MyFavorites;
     },

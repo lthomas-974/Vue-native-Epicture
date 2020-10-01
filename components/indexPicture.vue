@@ -75,15 +75,13 @@ export default {
       };
 
     },
-    onPressRemoveToMyFavorite() {
-      alert("remove");
-    },
+
     onPressAddToMyFavorite() {
       try {
         fetch(
           `https://api.imgur.com/3/image/${this.data.id}/favorite`,
           {
-            methods: "POST",
+            method: "POST",
             headers: {
               authorization:
                 "Bearer " + store.state.UserData.params.access_token,

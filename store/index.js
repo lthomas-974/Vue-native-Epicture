@@ -19,11 +19,9 @@ const store = new Vuex.Store({
     },
     setMyFavorites(state, payload) {
       state.MyFavorites = payload
-      console.log("------------> In Store")
     },
     setMyPictures(state, payload) {
       state.MyPictures = payload
-      console.log("------------> In Store")
     },
     setImgurData(state, payload){
       state.ImgurData = payload
@@ -51,7 +49,7 @@ const store = new Vuex.Store({
         const imgurApiCall = await fetch(
           `https://api.imgur.com/3/account/${store.state.UserData.params.account_username}/favorites`,
           {
-            methods: "GET",
+            method: "GET",
             headers: {
               authorization: "Bearer " + store.state.UserData.params.access_token,
             },
@@ -68,7 +66,7 @@ const store = new Vuex.Store({
         const imgurApiCall = await fetch(
           `https://api.imgur.com/3/account/me/images`,
           {
-            methods: "GET",
+            method: "GET",
             headers: {
               authorization: "Bearer " + store.state.UserData.params.access_token,
             },

@@ -1,33 +1,39 @@
 <template>
-  <view class="container">
-    <text class="text-color-primary">Upload picture</text>
+<nb-container>
+    <nb-header class="header" rounded>
+      <StatusBar barStyle="light-content" backgroundColor="#1bb76e" />
+      <nb-item>
+        <nb-text> Upload a picture</nb-text>
+      </nb-item>
+    </nb-header>
     <nb-button v-if="!isConnected" block primary :onPress="onPressGoProfileScreen">
-            <nb-text>Login before</nb-text>
-        </nb-button>
-    <button
-      v-if="isConnected && !isPictureSelected"
-      :on-press="onPressSelectFile"
-      title="Select"
-      color="#841584"
-      accessibility-label="Learn more about this purple button"
-    />
-    <text v-if="file"> {{ file.name }}</text>
-    <button
-      v-if="isPictureSelected"
-      :on-press="onPressUnselectFile"
-      title="Unselect"
-      color="#841584"
-      accessibility-label="Learn more about this purple button"
-    />
+        <nb-text>Login before</nb-text>
+    </nb-button>
+    <nb-spinner v-else-if="isLoading" color="green" />
+    <nb-content class="card-deck" v-else padder>
+      <nb-card>
+        <nb-card-item>
+          <nb-button v-if="isConnected && !isPictureSelected" block primary :onPress="onPressSelectFile">
+              <nb-text>Select a picture</nb-text>
+          </nb-button>
+          <nb-text v-if="file">{{ file.name }}</nb-text>
+        </nb-card-item>
+        <nb-card-item>
+          <nb-left>
+            <nb-button v-if="isConnected && isPictureSelected" block primary :onPress="onPressUnselectFile">
+                <nb-text>Unselect a picture</nb-text>
+            </nb-button>
+          </nb-left>
+          <nb-right>
+            <nb-button v-if="isConnected && isPictureSelected" block primary :onPress="onPressUploadPicture">
+                <nb-text>Upload the file selected</nb-text>
+            </nb-button>
+          </nb-right>
+        </nb-card-item>
+      </nb-card>
+    </nb-content>
 
-    <button
-      v-if="isConnected && isPictureSelected"
-      :on-press="onPressUploadPicture"
-      title="Upload"
-      color="#841584"
-      accessibility-label="Learn more about this purple button"
-    />
-  </view>
+  </nb-container>
 </template>
 
 <script>
@@ -65,18 +71,18 @@ export default {
 
       try {
         const pictureBase64 = await FileSystem.readAsStringAsync(this.file.uri,{ encoding: 'base64'  });
-        let body = new FormData()
-        body.append("title",this.file.name)
-        body.append("image",pictureBase64,this.file.name)
-        console.log(body)
+        let bodyData = new FormData()
+        bodyData.append("title",this.file.name)
+        bodyData.append("image",pictureBase64,this.file.name)
+                bodyData.append("type","base64")
+
         this.isLoading = true
         const uploadApiCall = await fetch(`https://api.imgur.com/3/upload`, {
           method: "POST",
           headers: {
             authorization: "Bearer " + store.state.UserData.params.access_token,
-            "content-type":"multipart/form-data; boundary=epicture",
           },
-          body:body
+          body:bodyData
         }).then((res) => res.json());
         console.log(uploadApiCall)
 

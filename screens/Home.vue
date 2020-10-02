@@ -1,13 +1,29 @@
 <template>
   <nb-container class="header">
-    <nb-header class="header"   searchBar rounded>
+    <nb-header class="header" searchBar rounded>
       <StatusBar barStyle="light-content" backgroundColor="#1bb76e" />
       <nb-item>
         <nb-icon :on-press="search" active name="search" />
-        <nb-input placeholder="Search in Imgur" v-model="searchInput" @keydown="search()" />
+        <nb-input placeholder="Search, exemple : otter" v-model="searchInput" @keydown="search" />
         <nb-icon class="icon" :on-press="search" type="FontAwesome" active name="paw" />
       </nb-item>
     </nb-header>
+      <nb-form>
+        <nb-picker mode="dropdown" placeholder="Filter" :selectedValue="selected" :onValueChange="onValueChange">
+          <item label="Time" value="time" />
+          <item label="Viral" value="viral" />
+          <item label="Top" value="top" />
+        </nb-picker>
+      </nb-form>
+      <nb-form v-if="selected === 'top'">
+        <nb-picker mode="dropdown" placeholder="Top by" :selectedValue="selectedTop" :onValueChange="onValueChangeTop">
+          <item label="Day" value="day" />
+          <item label="Week" value="week" />
+          <item label="Month" value="month" />
+          <item label="Year" value="year" />
+          <item label="All" value="all" />
+        </nb-picker>
+      </nb-form>
     <nb-content v-if="ImgurData.length > 1" padder>
       <nb-card v-for="img in ImgurData" v-bind:key="img.id">
         <nb-card-item>
@@ -31,7 +47,7 @@
             </nb-button>
           </nb-left>
           <nb-body>
-            <nb-button  transparent>
+            <nb-button transparent>
               <nb-icon class="bottomButton" name="chatbubbles" active></nb-icon>
               <nb-text class="bottomButton">{{ img.comment_count }} Comments</nb-text>
             </nb-button>
@@ -48,12 +64,22 @@
 </template>
 
 <script>
+
   import logo from "../assets/logo.png";
   import cardImage from "../assets/drawer-cover.png";
   import store from "../store/index";
   import Vue from "vue-native-core";
-  import { Alert } from 'react-native';
-  import {StatusBar} from 'react-native';
+  import {
+    Alert
+  } from 'react-native';
+  import {
+    StatusBar
+  } from 'react-native';
+  import React from "react";
+  import {
+    Picker,
+    Icon
+  } from "native-base";
   import {
     VueNativeBase
   } from "native-base";
@@ -61,8 +87,13 @@
   Vue.use(VueNativeBase);
 
   export default {
+    components: {
+      Item: Picker.Item
+    },
     data() {
       return {
+        selectedTop: "all",
+        selected: "time",
         imgurData: {},
         logo,
         searchInput: "",
@@ -83,6 +114,14 @@
       await store.dispatch("updateHome");
     },
     methods: {
+      async onValueChange(value) {
+        this.selected = value;
+        await store.dispatch("search", { search:this.searchInput, sort: this.selected, window: this.selectedTop});
+      },
+      async onValueChangeTop(value) {
+        this.selectedTop = value;
+        await store.dispatch("search", { search:this.searchInput, sort: this.selected, window: this.selectedTop});
+      },
       goToUploadPictureScreen() {
         this.navigation.navigate("UploadPicture");
       },
@@ -98,36 +137,37 @@
       async addFavorite(id) {
         try {
           fetch(
-            `https://api.imgur.com/3/image/${id}/favorite`, {
-              method: "POST",
-              headers: {
-                authorization: "Bearer " + store.state.UserData.params.access_token,
-              },
-            })
-          .then(store.dispatch("updateMyFavorites"))
-          .then(
-            Alert.alert(
+              `https://api.imgur.com/3/image/${id}/favorite`, {
+                method: "POST",
+                headers: {
+                  authorization: "Bearer " + store.state.UserData.params.access_token,
+                },
+              })
+            .then(store.dispatch("updateMyFavorites"))
+            .then(
+              Alert.alert(
                 'New Message',
                 'New favorite Added !',
-                [
-                    {text: 'OK'},
-                ],
-                { cancelable: true }
-            ));
+                [{
+                  text: 'OK'
+                }, ], {
+                  cancelable: true
+                }
+              ));
         } catch (err) {
           Alert.alert(
-                'New Message',
-                'You need to be login for add favorite picture',
-                [
-                    {text: 'OK'},
-                ],
-                { cancelable: true }
-            )
+            'New Message',
+            'You need to be login for add favorite picture',
+            [{
+              text: 'OK'
+            }, ], {
+              cancelable: true
+            }
+          )
         }
       },
       async search() {
-        console.log(this.searchInput)
-        await store.dispatch("search", this.searchInput);
+        await store.dispatch("search", { search:this.searchInput, sort: this.selected,  window: this.selectedTop});
       }
 
     },
@@ -137,7 +177,7 @@
       },
       ImgurData: function () {
         let tmp = [];
-        if(store.state.ImgurData.length < 20){
+        if (store.state.ImgurData.length < 20) {
           return store.state.ImgurData
         }
         for (let i = 0; i < 20; i++) {
@@ -183,7 +223,7 @@
     color: #1bb76e;
   }
 
-  .bottomButton{
+  .bottomButton {
     color: #1bb76e;
   }
 </style>

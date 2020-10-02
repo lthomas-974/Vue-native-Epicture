@@ -1,4 +1,4 @@
-# Epicture
+# Vue-native Epicture
 
 ![](exemple.gif)
 

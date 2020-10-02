@@ -48,7 +48,7 @@ module.exports = {
     CLIENT_ID : "Your CLIENT_ID"
 };
 ```  
-Install the dependecies  
+Install the Node's dependencies  
 `npm install`  
 
 Run the expo server  

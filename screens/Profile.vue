@@ -48,7 +48,8 @@ export default {
       }
     },
     async logout() {
-      store.commit("setUserData", {});
+      store.commit("resetAll")
+
     },
   },
 };

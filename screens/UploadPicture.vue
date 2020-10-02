@@ -31,6 +31,7 @@
 <script>
 import store from "../store/index";
 import * as DocumentPicker from "expo-document-picker";
+import * as FileSystem from "expo-file-system"
 
 export default {
   props: {
@@ -56,29 +57,35 @@ export default {
     async onPressUploadPicture() {
 
 
-      let bodyData = new FormData();
-      bodyData.append('image', this.file);
-      bodyData.append('title', this.file.name);
-      bodyData.append('Authorization', 'Client-ID '+store.state.UserData.params.account_id);
-      console.log(bodyData)
-
 
       try {
+        const pictureBase64 = await FileSystem.readAsStringAsync(this.file.uri,{ encoding: 'base64'  });
+        let body = new FormData()
+        body.append("title",this.file.name)
+        body.append("image",pictureBase64,this.file.name)
+        console.log(body)
         this.isLoading = true
         const uploadApiCall = await fetch(`https://api.imgur.com/3/upload`, {
           method: "POST",
           headers: {
             authorization: "Bearer " + store.state.UserData.params.access_token,
-            "content-type":'multipart/form-data'
+            "content-type":"multipart/form-data; boundary=epicture",
           },
-          body: bodyData,
+          body:body
         }).then((res) => res.json());
+        console.log(uploadApiCall)
+
         if (uploadApiCall.success) {
           alert('success')
           this.isLoading=false
           this.onPressUnselectFile()
           store.dispatch("updateMyPictures");
+        } else {
+          this.isLoading=false
+          this.onPressUnselectFile()
+          alert('Something wrong. Try again later')
         }
+
       } catch (err) {
         console.log("Error fetching data-----------", err);
       }

@@ -49,10 +49,10 @@ Now, you can use this wonderfull application
 
 ## The Team
 
-Curious about who makes this project
-[YohannEpitech](https://github.com/YohannEpitech)
+Curious about who makes this project  
+[YohannEpitech](https://github.com/YohannEpitech)  
 [Kevin Bridonneau](https://github.com/Kevin-Bridonneau)
 
 ## License
 
-This project is GNU licensed.
+This project is GNU3 licensed.

@@ -1,5 +1,5 @@
 <template>
-  <nb-container >
+  <nb-container class="container">
     <nb-header class="header" rounded>
       <StatusBar barStyle="light-content" backgroundColor="#1bb76e" />
       <nb-item>
@@ -8,7 +8,7 @@
     </nb-header>
     <nb-text v-if="myFavoritesLength == 0">No favorite</nb-text>
     <nb-content class="card-deck"  v-else padder>
-      <index-gallery v-for="favorite in myFavorites" v-bind:key="favorite.id" :title="favorite.title"
+      <index-gallery class="card" v-for="favorite in myFavorites" v-bind:key="favorite.id" :title="favorite.title"
                 :data="favorite"
                 :remButton="true"/>
     </nb-content>
@@ -46,15 +46,6 @@ export default {
 </script>
 
 <style>
-.container {
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  borderTopWidth: 5px;
-  borderTopColor: white;
-  background-color: #2e3035;
-
-}
 
 .text-color-primary {
   color: blue;
@@ -70,6 +61,12 @@ export default {
 
 .card-deck {
   background-color:#2e3035;
-  borderWidth: 5px;
+
+
 }
+.container{
+    justify-content: center;
+
+}
+
 </style>

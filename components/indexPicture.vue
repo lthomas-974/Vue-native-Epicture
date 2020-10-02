@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     async onPressDeleteThisPicture() {
-      if (Alert.alert("Confirmatiion",
+      if (Alert.alert("Confirmation",
           "Do you want to delete this picture?",
           [
             {text:"Confirm",onPress:async ()=> {

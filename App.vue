@@ -1,5 +1,5 @@
 <template>
-  <app-navigator></app-navigator>
+    <app-navigator></app-navigator>
 </template>
 
 <script>
@@ -17,11 +17,6 @@ import ProfileScreen from "./screens/Profile.vue";
 import FavoriteScreen from "./screens/Favorite.vue";
 import MyPicturesScreen from "./screens/MyPictures.vue";
 import UploadPictureScreen from "./screens/UploadPicture.vue";
-
-Font.loadAsync({
-      Roboto: require("native-base/Fonts/Roboto.ttf"),
-      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
-    });
 
 const DrawerNavigator = createDrawerNavigator(
     {
@@ -46,6 +41,27 @@ const StackNavigator = createStackNavigator(
 const AppNavigator = createAppContainer(DrawerNavigator);
 
 export default {
-  components: { AppNavigator },
+  components: { AppNavigator},
+  data() {
+    return {
+      isAppReady: false
+    };
+  },
+  created() {
+    this.loadFonts();
+  },
+  methods: {
+    async loadFonts() {
+      try {
+        await Font.loadAsync({
+          Roboto: require("./node_modules/native-base/Fonts/Roboto.ttf"),
+          Roboto_medium: require("./node_modules/native-base/Fonts/Roboto_medium.ttf"),
+          Ionicons: require("./node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf")
+        });
+      } catch (error) {
+        console.log("some error occured", error);
+      }
+    }
+  }
 }
 </script>

@@ -38,14 +38,14 @@ The API Imgur will be used https://apidocs.imgur.com/
 
 ## How tu run it
 
-Clone the repository where you want
-`git clone git@github.com:YohannEpitech/Epicture.git`
-Go inside the folder
-`cd Epicture`
-`npm install`
-`expo start`
-Choose local connection
-Choose Android Device/Simulator or run an IOS simulator
+Clone the repository where you want  
+`git clone git@github.com:YohannEpitech/Epicture.git`   
+Go inside the folder  
+`cd Epicture`   
+`npm install`  
+`expo start`  
+Choose local connection  
+Choose Android Device/Simulator or run an IOS simulator  
 
 Now, you can use this wonderfull application
 

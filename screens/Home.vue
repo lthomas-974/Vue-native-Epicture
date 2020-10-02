@@ -8,15 +8,15 @@
         <nb-icon class="icon" :on-press="search" type="FontAwesome" active name="paw" />
       </nb-item>
     </nb-header>
-      <nb-form>
-        <nb-picker mode="dropdown" placeholder="Filter" :selectedValue="selected" :onValueChange="onValueChange">
+      <nb-form class="picker">
+        <nb-picker  class="picker"  mode="dropdown" placeholder="Filter" :selectedValue="selected" :onValueChange="onValueChange">
           <item label="Time" value="time" />
           <item label="Viral" value="viral" />
           <item label="Top" value="top" />
         </nb-picker>
       </nb-form>
-      <nb-form v-if="selected === 'top'">
-        <nb-picker mode="dropdown" placeholder="Top by" :selectedValue="selectedTop" :onValueChange="onValueChangeTop">
+      <nb-form class="picker" v-if="selected === 'top'">
+        <nb-picker  class="picker" mode="dropdown" placeholder="Top by" :selectedValue="selectedTop" :onValueChange="onValueChangeTop">
           <item label="Day" value="day" />
           <item label="Week" value="week" />
           <item label="Month" value="month" />
@@ -225,5 +225,12 @@
 
   .bottomButton {
     color: #1bb76e;
+  }
+  
+  .picker{
+    marginRight: 10px;
+    marginLeft: 12px;
+    background-color: #1bb76e;
+    color: white;
   }
 </style>

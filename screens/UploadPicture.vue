@@ -27,10 +27,8 @@ export default {
   methods: {
     async uploadPicture(){
       let bodyData = new FormData()
-      bodyData.append({title:"hello",
-      description:"My picture",
-      disable_audio:1,
-      type:"jpg"})
+      bodyData.append(file,this.file)
+
       console.log(body)
       try {
         const uploadApiCall = await fetch(`https://api.imgur.com/3/upload`,

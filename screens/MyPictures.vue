@@ -8,7 +8,7 @@
     </nb-header>
     <nb-text v-if="myPicturesLength == 0">No picture</nb-text>
     <nb-content class="card-deck"  v-else padder>
-      <index-picture v-for="picture in myPictures" v-bind:key="picture.id"
+      <index-picture class="card" v-for="picture in myPictures" v-bind:key="picture.id"
                 :data="picture"
                 :delButton="true"/>
     </nb-content>
@@ -49,9 +49,7 @@ export default {
 
 <style>
 .container {
-  flex: 1;
-  background-color: white;
-  align-items: center;
+
   justify-content: center;
 }
 
@@ -70,6 +68,5 @@ export default {
 
 .card-deck {
   background-color:#2e3035;
-  borderWidth: 5px;
 }
 </style>

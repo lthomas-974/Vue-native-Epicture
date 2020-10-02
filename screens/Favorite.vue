@@ -8,7 +8,7 @@
     </nb-header>
     <nb-text v-if="myFavoritesLength == 0">No favorite</nb-text>
     <nb-content class="card-deck"  v-else padder>
-      <index-gallery class="card" v-for="favorite in myFavorites" v-bind:key="favorite.id" :title="favorite.title"
+      <index-favorite class="card" v-for="favorite in myFavorites" v-bind:key="favorite.id" :title="favorite.title"
                 :data="favorite"
                 :remButton="true"/>
     </nb-content>
@@ -16,10 +16,10 @@
 </template>
 <script>
 import store from "../store/index";
-import indexGallery from "../components/indexGallery";
+import indexFavorite from "../components/indexFavorite";
 
 export default {
-  components: { indexGallery },
+  components: { indexFavorite },
   props: {
     navigation: {
       type: Object,

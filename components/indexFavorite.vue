@@ -45,7 +45,6 @@ export default {
       Type: Boolean,
     },
   },
-  mounted() {},
   methods: {
     async onPressToggleToMyFavorite() {
       if (

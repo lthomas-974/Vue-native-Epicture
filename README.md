@@ -3,7 +3,6 @@
 <p align="center">
   <img src="exemple.gif" alt="Sublime's custom image"/>
 </p>
-![](exemple.gif)
 
 ## The project
 The goal of this project is to use and implement online photo sharing API platforms.

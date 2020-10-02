@@ -1,12 +1,16 @@
 <template>
-  <nb-container class="container">
+  <nb-container>
     <nb-header class="header" rounded>
       <StatusBar barStyle="light-content" backgroundColor="#1bb76e" />
       <nb-item>
         <nb-text> My favorites</nb-text>
       </nb-item>
     </nb-header>
-                <nb-spinner v-if="isLoading" color="red" />
+
+    <nb-button v-if="!isConnected" block primary :onPress="onPressGoProfileScreen">
+        <nb-text>Login before</nb-text>
+    </nb-button>
+    <nb-spinner v-else-if="isLoading" color="red" />
 
     <nb-text v-else-if="myFavoritesLength == 0">No favorite</nb-text>
     <nb-content class="card-deck" v-else padder>
@@ -39,8 +43,15 @@ export default {
       this.navigation.navigate("Profile");
     }
   },
-  methods: {},
+  methods: {
+    onPressGoProfileScreen(){
+      this.navigation.navigate("Profile");
+    },
+  },
   computed: {
+    isConnected: function () {
+      return store.state.isConnected;
+    },
     isLoading: function () {
       return store.state.isLoadingMyFavorites;
     },

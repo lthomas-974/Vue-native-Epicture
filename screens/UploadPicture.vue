@@ -1,9 +1,11 @@
 <template>
   <view class="container">
     <text class="text-color-primary">Upload picture</text>
-
+    <nb-button v-if="!isConnected" block primary :onPress="onPressGoProfileScreen">
+            <nb-text>Login before</nb-text>
+        </nb-button>
     <button
-      v-if="!isPictureSelected"
+      v-if="isConnected && !isPictureSelected"
       :on-press="onPressSelectFile"
       title="Select"
       color="#841584"
@@ -19,7 +21,7 @@
     />
 
     <button
-      v-if="isPictureSelected"
+      v-if="isConnected && isPictureSelected"
       :on-press="onPressUploadPicture"
       title="Upload"
       color="#841584"
@@ -44,6 +46,9 @@ export default {
   },
   mounted() {},
   methods: {
+    onPressGoProfileScreen(){
+      this.navigation.navigate("Profile");
+    },
     async onPressSelectFile() {
       this.file = await DocumentPicker.getDocumentAsync({});
       this.isPictureSelected = true;
@@ -92,6 +97,9 @@ export default {
     },
   },
   computed: {
+    isConnected: function () {
+      return store.state.isConnected;
+    },
     userData: function () {
       return store.state.UserData;
     },

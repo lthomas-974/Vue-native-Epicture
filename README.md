@@ -39,7 +39,7 @@ The API Imgur will be used https://apidocs.imgur.com/
 Clone the repository where you want  
 `git clone git@github.com:YohannEpitech/Epicture.git`   
 Go inside the folder  
-`cd Epicture`
+`cd Epicture`   
 Rename env.config.js.exemple to env.config.js and replace "Your CLIENT_ID" by your imgur client ID
 ```
 module.exports = {

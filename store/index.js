@@ -1,6 +1,7 @@
 import Vue from "vue-native-core";
 import Vuex from "vuex";
 import { VueNativeBase } from "native-base";
+import ENV from "../env.config"
 Vue.use(Vuex);
 Vue.use(VueNativeBase);
 
@@ -49,7 +50,7 @@ const store = new Vuex.Store({
   actions: {
     async updateHome(context){
       var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Client-ID ffea18b10c6e973");
+      myHeaders.append("Authorization", "Client-ID " + ENV.CLIENT_ID);
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,
@@ -64,7 +65,7 @@ const store = new Vuex.Store({
     },
     async search(context, payload){
       var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Client-ID ffea18b10c6e973");
+      myHeaders.append("Authorization", "Client-ID " + ENV.CLIENT_ID);
       var requestOptions = {
         method: 'GET',
         headers: myHeaders,

@@ -84,8 +84,6 @@ export default {
           },
           body:bodyData
         }).then((res) => res.json());
-        console.log(uploadApiCall)
-
         if (uploadApiCall.success) {
           alert('success')
           this.isLoading=false

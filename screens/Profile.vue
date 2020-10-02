@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import ENV from "../env.config"
 import store from "../store/index";
 import * as AuthSession from "expo-auth-session";
 export default {
@@ -36,7 +37,7 @@ export default {
 
     async login() {
       const authUrl =
-        "https://api.imgur.com/oauth2/authorize?client_id=ffea18b10c6e973&response_type=token&state=Epicture";
+        "https://api.imgur.com/oauth2/authorize?client_id=" + ENV.CLIENT_ID + "&response_type=token&state=Epicture";
       try {
         const result = await AuthSession.startAsync({
           authUrl,

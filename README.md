@@ -14,7 +14,12 @@ the creation of your project.
 This project is written in Vue-native
 
 ## Dependencies and librairies used
-To do
+	- Vue router
+	- Vue Ex
+	- Expo / Expo Document Picker / Expo file system
+	- Native Base
+	- React-native
+
 
 ## Functionnalities
 The project’s functionalities are set out as follows:
@@ -39,6 +44,7 @@ Go inside the folder
 `cd Epicture`
 `npm install`
 `expo start`
+Choose local connection
 Choose Android Device/Simulator or run an IOS simulator
 
 Now, you can use this wonderfull application

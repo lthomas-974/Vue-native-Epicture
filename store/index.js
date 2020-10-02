@@ -20,7 +20,6 @@ const store = new Vuex.Store({
 
   mutations: {
     resetAll(state){
-      console.log("------------> Reset")
       state.isConnected=false
       state.UserData={};
 
@@ -35,17 +34,12 @@ const store = new Vuex.Store({
     setUserData(state, payload) {
       state.UserData = payload
       state.isConnected=true
-      console.log("------------> In Store UserData")
     },
     setMyFavorites(state, payload) {
       state.MyFavorites = payload
-      console.log("------------> In Store Favorites")
-
     },
     setMyPictures(state, payload) {
       state.MyPictures = payload
-      console.log("------------> In Store My pictures")
-
     },
     setImgurData(state, payload){
       state.ImgurData = payload

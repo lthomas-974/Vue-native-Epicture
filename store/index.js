@@ -9,19 +9,43 @@ const store = new Vuex.Store({
     UserData: {},
     MyFavorites: {},
     MyPictures:{},
-    ImgurData:[]
+    ImgurData:[],
+    isConnected:false,
+    isLoadingMyPictures:true,
+    isLoadingMyFavorites:true,
+    isLoadingHome:true
+
+
   },
 
   mutations: {
+    resetAll(state){
+      console.log("------------> Reset")
+      state.isConnected=false
+      state.UserData={};
+
+      state.MyFavorites={}
+      state.MyPictures={}
+
+      state.isLoadingMyPictures=true,
+      state.isLoadingMyFavorites=true,
+      state.isLoadingHome=true
+
+    },
     setUserData(state, payload) {
       state.UserData = payload
+      state.isConnected=true
       console.log("------------> In Store UserData")
     },
     setMyFavorites(state, payload) {
       state.MyFavorites = payload
+      console.log("------------> In Store Favorites")
+
     },
     setMyPictures(state, payload) {
       state.MyPictures = payload
+      console.log("------------> In Store My pictures")
+
     },
     setImgurData(state, payload){
       state.ImgurData = payload
@@ -71,6 +95,7 @@ const store = new Vuex.Store({
           }
         );
         const pictures = await imgurApiCall.json();
+        context.state.isLoadingMyFavorites=false;
         context.commit("setMyFavorites", pictures.data);
       } catch (err) {
         console.log("Error fetching data-----------", err);
@@ -88,6 +113,8 @@ const store = new Vuex.Store({
           }
         );
         const pictures = await imgurApiCall.json();
+        context.state.isLoadingMyPictures=false;
+
         context.commit("setMyPictures", pictures.data);
       } catch (err) {
         console.log("Error fetching data-----------", err);

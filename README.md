@@ -34,8 +34,6 @@ The project’s functionalities are set out as follows:
 
 The API Imgur will be used https://apidocs.imgur.com/
 
-## Structure
-
 ## How to run it
 
 Clone the repository where you want  
@@ -49,10 +47,11 @@ Choose Android Device/Simulator or run an IOS simulator
 
 Now, you can use this wonderfull application
 
-## blue_heart The Team
+## The Team
 
-Curious about who makes this porject
-Here are our team members!
+Curious about who makes this project
+[YohannEpitech](https://github.com/YohannEpitech)
+[Kevin Bridonneau](https://github.com/Kevin-Bridonneau)
 
 ## License
 

@@ -36,7 +36,7 @@ The API Imgur will be used https://apidocs.imgur.com/
 
 ## Structure
 
-## How tu run it
+## How to run it
 
 Clone the repository where you want  
 `git clone git@github.com:YohannEpitech/Epicture.git`   

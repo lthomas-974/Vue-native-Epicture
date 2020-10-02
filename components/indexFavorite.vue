@@ -10,7 +10,7 @@
         <image
           v-if="data.type.substring(0, 5) == 'image'"
           :source="{ uri: data.link }"
-          :style="{ width: 385, height: 300 }"
+          :style="{ width: 385, height: data.height+50 }"
         />
         <image
           v-else
@@ -46,6 +46,9 @@ export default {
     },
   },
   methods: {
+    getHeight(){
+      return this.data.width / this.data.height *385
+    },
     async onPressToggleToMyFavorite() {
       if (
         Alert.alert(
@@ -87,6 +90,5 @@ export default {
 <style >
 .card-item-image {
     flex: 1;
-    height: 300;
   }
 </style>

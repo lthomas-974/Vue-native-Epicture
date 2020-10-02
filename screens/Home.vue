@@ -169,7 +169,6 @@
       async search() {
         await store.dispatch("search", { search:this.searchInput, sort: this.selected,  window: this.selectedTop});
       }
-
     },
     computed: {
       userData: function () {
@@ -185,7 +184,6 @@
         }
         return tmp;
       }
-
     },
   };
 </script>

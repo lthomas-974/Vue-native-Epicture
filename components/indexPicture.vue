@@ -2,7 +2,9 @@
   <nb-card>
     <nb-card-item header>
         <nb-right>
+          <nb-body>
         <nb-text>Added the {{ data.datetime }} </nb-text>
+          </nb-body>
       </nb-right>
     </nb-card-item>
     <nb-card-item cardBody>

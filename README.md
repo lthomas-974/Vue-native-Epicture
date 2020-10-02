@@ -48,8 +48,10 @@ module.exports = {
     CLIENT_ID : "Your CLIENT_ID"
 };
 ```  
-
+Install the dependecies  
 `npm install`  
+
+Run the expo server  
 `expo start`  
 Choose local connection  
 Choose Android Device/Simulator or run an IOS simulator  

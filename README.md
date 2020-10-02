@@ -49,3 +49,11 @@ Choose Android Device/Simulator or run an IOS simulator
 
 Now, you can use this wonderfull application
 
+## blue_heart The Team
+
+Curious about who makes this porject
+Here are our team members!
+
+## License
+
+This project is GNU licensed.

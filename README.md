@@ -1,5 +1,8 @@
 # Vue-native Epicture
 
+<p align="center">
+  <img src="exemple.gif" alt="Sublime's custom image"/>
+</p>
 ![](exemple.gif)
 
 ## The project

@@ -10,7 +10,7 @@
         <image
           v-if="data.type.substring(0, 5) == 'image'"
           :source="{ uri: data.link }"
-          :style="{ width: 385, height: data.height+50 }"
+          :style="{ width: 385, height: data.height + 50 }"
         />
         <image
           v-else
@@ -19,10 +19,10 @@
         />
       </nb-body>
     </nb-card-item>
-    <nb-card-item >
+    <nb-card-item>
       <nb-right>
         <nb-button danger button :onPress="onPressToggleToMyFavorite">
-          <nb-icon  name="trash" active></nb-icon>
+          <nb-icon name="trash" active></nb-icon>
         </nb-button>
       </nb-right>
     </nb-card-item>
@@ -35,19 +35,13 @@ import { Alert } from "react-native";
 
 export default {
   props: {
-    title: {
-      Type: Object,
-    },
     data: {
       Type: Object,
     },
-    remButton: {
-      Type: Boolean,
-    },
   },
   methods: {
-    getHeight(){
-      return this.data.width / this.data.height *385
+    getHeight() {
+      return (this.data.width / this.data.height) * 385;
     },
     async onPressToggleToMyFavorite() {
       if (
@@ -89,6 +83,6 @@ export default {
 
 <style >
 .card-item-image {
-    flex: 1;
-  }
+  flex: 1;
+}
 </style>

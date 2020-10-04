@@ -1,43 +1,35 @@
 <template>
   <view class="container">
-    <text class="text-color-primary">{{ message }}</text>
+    <text class="text-color-primary">You need to connect to imgur before</text>
     <button v-if="!userData.params" title="Login to imgur" @press="login" />
     <text v-if="userData.params" class="text">
       {{ userData.params.account_username }}, you're connected !</text
     >
     <button v-if="userData.params" title="Logout" @press="logout" />
-
   </view>
 </template>
 
 <script>
-import ENV from "../env.config"
+import ENV from "../env.config";
 import store from "../store/index";
 import * as AuthSession from "expo-auth-session";
 export default {
-  data() {
-    return {
-      message: "My Imgur",
-
-    };
-  },
   props: {
     navigation: {
-      type: Object
-    }
+      type: Object,
+    },
   },
-  mounted() {},
   computed: {
     userData: function () {
       return store.state.UserData;
     },
   },
-  watch: {},
   methods: {
-
     async login() {
       const authUrl =
-        "https://api.imgur.com/oauth2/authorize?client_id=" + ENV.CLIENT_ID + "&response_type=token&state=Epicture";
+        "https://api.imgur.com/oauth2/authorize?client_id=" +
+        ENV.CLIENT_ID +
+        "&response_type=token&state=Epicture";
       try {
         const result = await AuthSession.startAsync({
           authUrl,
@@ -49,8 +41,7 @@ export default {
       }
     },
     async logout() {
-      store.commit("resetAll")
-
+      store.commit("resetAll");
     },
   },
 };

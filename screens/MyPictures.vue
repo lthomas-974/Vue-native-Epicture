@@ -17,7 +17,6 @@
         v-for="picture in myPictures"
         v-bind:key="picture.id"
         :data="picture"
-        :delButton="true"
       />
     </nb-content>
   </nb-container>
@@ -29,7 +28,6 @@ import indexPicture from "../components/indexPicture";
 
 export default {
   components: { indexPicture },
-
   props: {
     navigation: {
       type: Object,
@@ -47,9 +45,7 @@ export default {
       this.navigation.navigate("Profile");
     },
   },
-
   computed: {
-
     isLoading: function () {
       return store.state.isLoadingMyPictures;
     },

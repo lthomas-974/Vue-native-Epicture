@@ -7,8 +7,13 @@
       </nb-item>
     </nb-header>
 
-    <nb-button v-if="!isConnected" block primary :onPress="onPressGoProfileScreen">
-        <nb-text>Login before</nb-text>
+    <nb-button
+      v-if="!isConnected"
+      block
+      primary
+      :onPress="onPressGoProfileScreen"
+    >
+      <nb-text>Login before</nb-text>
     </nb-button>
     <nb-spinner v-else-if="isLoading" color="red" />
 
@@ -18,9 +23,7 @@
         class="card"
         v-for="favorite in myFavorites"
         v-bind:key="favorite.id"
-        :title="favorite.title"
         :data="favorite"
-        :remButton="true"
       />
     </nb-content>
   </nb-container>
@@ -44,7 +47,7 @@ export default {
     }
   },
   methods: {
-    onPressGoProfileScreen(){
+    onPressGoProfileScreen() {
       this.navigation.navigate("Profile");
     },
   },
@@ -61,11 +64,6 @@ export default {
     myFavoritesLength: function () {
       return store.state.MyFavorites.length;
     },
-  },
-  data() {
-    return {
-      message: "My Imgur",
-    };
   },
 };
 </script>
